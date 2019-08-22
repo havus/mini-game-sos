@@ -1,9 +1,9 @@
 <template>
   <div id="body">
     <div id="container">
-      <p>{{ count }}</p>
+      <p>{{ room.count }}</p>
       <div id="row" v-for="(y, yi) in row" :key=yi>
-        <div id="box" @click="addChar" v-for="(x, xi) in col" :key="xi" :coor="yi+''+xi">{{ board[yi][xi] }}</div>
+        <div id="box" @click="addChar" v-for="(x, xi) in col" :key="xi" :coor="yi+''+xi" :room_id="room.id">{{ room.board[yi][xi] }}</div>
       </div>
     </div>
 
@@ -21,28 +21,58 @@
 <script>
 import { mapState } from 'vuex'
 
+
 export default {
   name: 'home',
   data: () => ({
+    room: [],
     col: 5,
     row: 5,
     char: '',
     x: '',
     y: ''
   }),
+  // computed: {
+  //   getRoomData () {
+  //     let thisUser = localStorage.getItem('username');
+  //     return this.$store.state.rooms.filter(room => {
+  //       for (let i = 0; i < room.players.length; i++) {
+  //         if (room.players[i].username === thisUser) {
+  //           return true
+  //         }
+  //       }
+  //     })
+  //   }
+  // },
   computed: mapState({
-    board: 'board',
-    count: 'count'
+    rooms: 'rooms'
   }),
-  mounted () {
+  created () {
     if (!localStorage.getItem('username')) {
       this.$router.push('username')
+    } else {
+      this.room = this.getRoomData()[0];
+      console.log(this.room);
     }
   },
   methods: {
+    getRoomData () {
+      let thisUser = localStorage.getItem('username');
+      // console.log(this.rooms);
+      return this.rooms.filter(room => {
+        for (let i = 0; i < room.players.length; i++) {
+          if (room.players[i].username === thisUser) {
+            return true
+          }
+        }
+      })
+    },
     addChar (val) {
       const myValue = val.target.innerHTML
-      if (!myValue) {
+      const playerIdx = this.room.players.map(function(e) { return e.username }).indexOf(localStorage.getItem('username'))
+
+      console.log(this.room.count, playerIdx);
+      if (!myValue && Math.abs(this.room.count % this.room.players.length - 1) === playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
         this.x = coor[0]
@@ -64,6 +94,7 @@ export default {
     },
     dispatchRoot () {
       this.$store.dispatch('addChar', {
+        room_id: this.room.id,
         char: this.char,
         x: this.x,
         y: this.y

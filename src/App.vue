@@ -4,6 +4,25 @@
   </div>
 </template>
 
+<script>
+import db from '@/api/firestore'
+
+export default {
+  mounted() {
+    
+    // db.collection('sos')
+    //   .onSnapshot((querySnapshot) => {
+    //     let dbMaster = []
+    //     querySnapshot.forEach((doc) => {
+    //       const data = doc.data();
+    //       dbMaster.push(data);
+    //     });
+    //     this.$store.dispatch('fetchData', dbMaster);
+    //   });
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
