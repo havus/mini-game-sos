@@ -34,35 +34,35 @@ export default {
     board: 'board',
     count: 'count'
   }),
-  mounted() {
+  mounted () {
     if (!localStorage.getItem('username')) {
       this.$router.push('username')
     }
   },
   methods: {
-    addChar(val) {
-      const myValue = val.target.innerHTML;
+    addChar (val) {
+      const myValue = val.target.innerHTML
       if (!myValue) {
-        this.toggleModal();
-        const coor = val.target.getAttribute('coor');
-        this.x = coor[0];
-        this.y = coor[1];
+        this.toggleModal()
+        const coor = val.target.getAttribute('coor')
+        this.x = coor[0]
+        this.y = coor[1]
       }
     },
-    toggleModal() {
+    toggleModal () {
       this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
     },
-    s() {
-      this.char = 's';
-      this.dispatchRoot();
-      this.toggleModal();
+    s () {
+      this.char = 's'
+      this.dispatchRoot()
+      this.toggleModal()
     },
-    o() {
-      this.char = 'o';
-      this.dispatchRoot();
-      this.toggleModal();
+    o () {
+      this.char = 'o'
+      this.dispatchRoot()
+      this.toggleModal()
     },
-    dispatchRoot() {
+    dispatchRoot () {
       this.$store.dispatch('addChar', {
         char: this.char,
         x: this.x,
