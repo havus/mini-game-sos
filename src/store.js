@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import db from '@/api/firestore'
 // import { stat } from 'fs'
 
 Vue.use(Vuex)
-import db from '@/api/firestore'
 
 export default new Vuex.Store({
   state: {
-    rooms: [],
+    rooms: []
   },
   mutations: {
     ADDCHAR: (state, obj) => {
       // TRACK === FULLPOINT JADI
-      let roomIdx = state.rooms.map(function(e) { return e.id; }).indexOf(3)
+      let roomIdx = state.rooms.map(function (e) { return e.id }).indexOf(3)
       state.rooms[roomIdx].board[obj.x][obj.y] = obj.char
       state.rooms[roomIdx].count++
       const board = state.rooms[roomIdx].board
@@ -72,12 +72,12 @@ export default new Vuex.Store({
           querySnapshot.forEach((doc) => {
             const data = doc.data()
             // doc.id
-            let temp = {...data}
+            let temp = { ...data }
             temp.id = doc.id
             arrObj.push(temp)
-          });
+          })
           context.commit('LISTROOM', arrObj)
-        });
+        })
     }
   }
 })

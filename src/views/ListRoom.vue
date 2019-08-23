@@ -35,7 +35,7 @@ export default {
     // console.log(this.rooms, '<<<<<<<<<<<<');
   },
   methods: {
-    
+
   }
 }
 </script>

@@ -20,7 +20,6 @@
 
 <script>
 
-
 export default {
   props: [],
   data: () => ({
@@ -34,9 +33,9 @@ export default {
   methods: {
     addChar (val) {
       const myValue = val.target.innerHTML
-      const playerIdx = this.room.players.map(function(e) { return e.username }).indexOf(localStorage.getItem('username'))
+      const playerIdx = this.room.players.map(function (e) { return e.username }).indexOf(localStorage.getItem('username'))
 
-      console.log(this.room.count, playerIdx);
+      console.log(this.room.count, playerIdx)
       if (!myValue && Math.abs(this.room.count % this.room.players.length - 1) === playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
@@ -64,7 +63,7 @@ export default {
         y: this.y
       })
       this.toggleModal()
-    },
+    }
   }
 }
 </script>
