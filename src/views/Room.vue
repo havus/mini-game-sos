@@ -1,21 +1,21 @@
 <template>
-  
+
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import Board from '@/components/Board'
+// import Board from '@/components/Board'
 
 export default {
   components: {
-    Board
+    // Board
   },
   created () {
     if (!localStorage.getItem('username')) {
       this.$router.push('/')
     } else {
-      this.room = this.getRoomData()[0];
-      console.log(this.room);
+      this.room = this.getRoomData()[0]
+      console.log(this.room)
     }
   },
   computed: mapState({
@@ -23,7 +23,7 @@ export default {
   }),
   methods: {
     getRoomData () {
-      let thisUser = localStorage.getItem('username');
+      let thisUser = localStorage.getItem('username')
       // console.log(this.rooms);
       return this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
@@ -32,8 +32,8 @@ export default {
           }
         }
       })
-    },
-    
+    }
+
   }
 }
 </script>
