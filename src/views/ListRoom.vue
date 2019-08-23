@@ -6,7 +6,6 @@
         <div v-for="(players, index) in room" :key="index" class="card-title">
           <div v-for="(player, index) in players" :key="index" class="card-title">{{player.name}}</div>
         </div>
-        <!-- <a href="/room" class="btn btn-primary">Go</a> -->
       </div>
     </div>
   </div>
