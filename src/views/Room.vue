@@ -1,5 +1,8 @@
 <template>
-  
+  <div id="bodyRoom">
+    <h1>username : {{ username }} </h1>
+    <Board :theRoom="theRoom"></Board>
+  </div>
 </template>
 
 <script>
@@ -10,34 +13,50 @@ export default {
   components: {
     Board
   },
+  computed: mapState({
+    rooms: 'rooms'
+  }),
+  data: () => ({
+    theRoom: '',
+    username: ''
+  }),
   created () {
     if (!localStorage.getItem('username')) {
       this.$router.push('/')
     } else {
-      this.room = this.getRoomData()[0];
-      console.log(this.room);
+      this.$store.dispatch('getListRoom')
+      this.username = localStorage.getItem('username')
     }
   },
-  computed: mapState({
-    rooms: 'rooms'
-  }),
-  methods: {
-    getRoomData () {
-      let thisUser = localStorage.getItem('username');
-      // console.log(this.rooms);
-      return this.rooms.filter(room => {
+  watch: {
+    rooms () {
+      let thisUser = localStorage.getItem('username')
+      this.theRoom = this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
-          if (room.players[i].username === thisUser) {
+          if (room.players[i].name === thisUser) {
             return true
           }
         }
       })
-    },
-    
+
+      if (this.theRoom.length <= 0) {
+        this.$router.push('/listroom')
+      }
+    }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  #bodyRoom {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(#b3a5cc, #92b397 , #919fb5, #b3a5cc, #82adac);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+  }
 </style>
