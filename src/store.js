@@ -12,39 +12,7 @@ export default new Vuex.Store({
   mutations: {
     ADDCHAR: (state, obj) => {
       // TRACK === FULLPOINT JADI
-      let roomIdx = state.rooms.map(function (e) { return e.id }).indexOf(3)
-      state.rooms[roomIdx].board[obj.x][obj.y] = obj.char
-      state.rooms[roomIdx].count++
-      const board = state.rooms[roomIdx].board
-      const template = 'sos'
-      let tempTrack = 1
-      for (let i = 0; i < board.length - 2; i++) {
-        for (let j = 0; j < board[i].length; j++) {
-          let tempHorizontal = board[i][j] + '' + board[i][j + 1] + '' + board[i][j + 2]
-          let tempVertical = board[i][j] + '' + board[i + 1][j] + '' + board[i + 2][j]
-          // 00 11 22
-          let tempDiagonalLeft = board[i][j] + '' + board[i + 1][j + 1] + '' + board[i + 2][j + 2]
-          // 02 11 20
-          let tempDiagonalRight = board[i][j + 2] + '' + board[i + 1][j + 1] + '' + board[i + 2][j]
-          if (tempHorizontal === template) {
-            tempTrack++
-          }
-          if (tempVertical === template) {
-            tempTrack++
-          }
-          if (tempDiagonalLeft === template) {
-            tempTrack++
-          }
-          if (tempDiagonalRight === template) {
-            tempTrack++
-          }
-          if (tempTrack > state.rooms[roomIdx].track) {
-            state.rooms[roomIdx].track = tempTrack
-            state.rooms[roomIdx].track = tempTrack
-            console.log(state.rooms[roomIdx].track, ' sudah jadi')
-          }
-        }
-      }
+      
     },
     LISTROOM: (state, arrObj) => {
       state.rooms = arrObj
@@ -52,7 +20,17 @@ export default new Vuex.Store({
   },
   actions: {
     addChar (context, obj) {
-      console.log(obj);
+      // console.log(obj);
+      // let roomIdx = state.rooms.map(function (e) { return e.id }).indexOf(3)
+      
+      db.collection('sos').doc(obj.room_id)
+        .update({
+          board: obj.board,
+          count: obj.count,
+          players: obj.players,
+          totalPoint: obj.totalPoint
+        })
+      
       // context.commit('ADDCHAR', obj)
     },
     getListRoom (context) {
@@ -70,9 +48,10 @@ export default new Vuex.Store({
           context.commit('LISTROOM', arrObj)
         });
     },
-    createRoom (context, objRM) {
+    createRoom (context, players) {
       // var objRM adalah object room master yg membuat player
       let obj = {
+        name: 'ngarang',
         board: {
           0: ['', '', '', '', ''],
           1: ['', '', '', '', ''],
@@ -80,9 +59,7 @@ export default new Vuex.Store({
           3: ['', '', '', '', ''],
           4: ['', '', '', '', '']
         },
-        players: [
-          objRM
-        ],
+        players,
         count: 0,
         totalPoint: 0
       }
@@ -93,10 +70,17 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log(err);
         });
-      // db.collection('sos').doc('2FDWFvxdXkzMBFFMNV2q')
-      //   .update({
-          
-      //   })
+      
+    },
+    deleteRoom (context, id) {
+      db.collection('sos').doc(id).delete()
+        .then(() => {
+          localStorage.clear()
+          console.log('berhasil delete room')
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 })

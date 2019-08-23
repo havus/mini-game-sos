@@ -1,5 +1,12 @@
 <template>
   <div id="body">
+    <b-card v-if="dataReady">
+      <b-card-text v-for="(player, i) in dataRoom.players" :key="i">
+        name: {{ player.name }}
+        <br>
+        point: {{ player.point }}
+      </b-card-text>
+    </b-card>
     <div id="container" v-if="dataReady">
       <p>{{ dataRoom.count }}</p>
       <div id="row" v-for="(y, yi) in dataRoom.board" :key=yi>
@@ -27,6 +34,7 @@ export default {
     char: '',
     x: '',
     y: '',
+    playerIdx: '',
     dataReady: false
   }),
   created () {
@@ -34,11 +42,12 @@ export default {
   methods: {
     addChar (val) {
       const myValue = val.target.innerHTML
-      const playerIdx = this.dataRoom.players.map(function(e) { return e.name }).indexOf(localStorage.getItem('username'))
-
-      console.log(this.dataRoom.count, playerIdx);
-      console.log(myValue);
-      if (!myValue && this.dataRoom.count % this.dataRoom.players.length === playerIdx) {
+      this.playerIdx = this.dataRoom.players.map(function(e) { return e.name }).indexOf(localStorage.getItem('username'))
+      
+      // console.log(this.dataRoom.count, this.dataRoom.players.length);
+      // console.log(this.dataRoom.players[playerIdx]);
+      
+      if (!myValue && this.dataRoom.count % this.dataRoom.players.length === this.playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
         this.x = coor[0]
@@ -49,35 +58,78 @@ export default {
       this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
     },
     s () {
-      this.$store.dispatch('addChar', {
-        room_id: this.dataRoom.id,
-        char: 's',
-        x: this.x,
-        y: this.y
-      })
+      this.checkBoard ('s')
       this.toggleModal()
     },
     o () {
-      this.$store.dispatch('addChar', {
-        room_id: this.dataRoom.id,
-        char: 'o',
-        x: this.x,
-        y: this.y
-      })
+      this.checkBoard ('o')
       this.toggleModal()
     },
+    checkBoard (char) {
+      let obj = {}
+      const template = 'sos'
+      let board = this.dataRoom.board
+      board[this.x][this.y] = char
+      obj.count = this.dataRoom.count + 1
+      obj.players = [...this.dataRoom.players]
+      obj.totalPoint = this.dataRoom.totalPoint
+      let tempTrack = 0
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+          let tempHorizontal = board[i][j] + '' + board[i][j + 1] + '' + board[i][j + 2]
+          let tempVertical = board[i][j] + '' + board[i + 1][j] + '' + board[i + 2][j]
+          // 00 11 22
+          let tempDiagonalLeft = board[i][j] + '' + board[i + 1][j + 1] + '' + board[i + 2][j + 2]
+          // 02 11 20
+          let tempDiagonalRight = board[i][j + 2] + '' + board[i + 1][j + 1] + '' + board[i + 2][j]
+          if (tempHorizontal === template) {
+            tempTrack++
+          }
+          if (tempVertical === template) {
+            tempTrack++
+          }
+          if (tempDiagonalLeft === template) {
+            tempTrack++
+          }
+          if (tempDiagonalRight === template) {
+            tempTrack++
+          }
+        }
+      }
+
+      if (tempTrack > obj.totalPoint) {
+        obj.totalPoint++
+        obj.players[this.playerIdx].point++
+        console.log(this.dataRoom.players);
+      }
+
+      this.$store.dispatch('addChar', {
+        room_id: this.dataRoom.id,
+        char,
+        board,
+        count: obj.count,
+        players: obj.players,
+        totalPoint: obj.totalPoint
+      })
+    }
   },
   watch: {
     theRoom () {
       this.dataRoom = {...this.theRoom[0]}
       this.dataReady = true
-      console.log(this.dataRoom, 'dari board');
+      if (this.dataRoom.count >= 25) {
+        this.$store.dispatch('deleteRoom', this.dataRoom.id)
+      }
     }
   },
 }
 </script>
 
-<style>
+<style scoped>
+  #body {
+    /* background-color: black */
+  }
   #row {
     display: flex;
   }

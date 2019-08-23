@@ -1,5 +1,6 @@
 <template>
   <div id="body">
+    <h1>username : {{ username }} </h1>
     <Board :theRoom="theRoom"></Board>
   </div>
 </template>
@@ -16,13 +17,15 @@ export default {
     rooms: 'rooms'
   }),
   data: () => ({
-    theRoom: ''
+    theRoom: '',
+    username: ''
   }),
   created () {
     if (!localStorage.getItem('username')) {
       this.$router.push('/')
     } else {
       this.$store.dispatch('getListRoom')
+      this.username = localStorage.getItem('username')
     }
   },
   computed: mapState({
@@ -54,5 +57,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 </style>
