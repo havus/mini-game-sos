@@ -3,93 +3,11 @@ import Vuex from 'vuex'
 // import { stat } from 'fs'
 
 Vue.use(Vuex)
+import db from '@/api/firestore'
 
 export default new Vuex.Store({
   state: {
-    rooms: [
-      {
-        id: 1,
-        count: 1,
-        players: [
-          {
-            username: 'john',
-            point: 1
-          },
-          {
-            username: 'megamen',
-            point: 1
-          },
-          {
-            username: 'fire',
-            point: 1
-          },
-          {
-            username: 'foobar',
-            point: 1
-          }
-        ],
-        board: [
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', '']
-        ],
-        track: 1
-      },
-      {
-        id: 2,
-        count: 1,
-        players: [
-          {
-            username: 'awk',
-            point: 1
-          },
-          {
-            username: 'tool',
-            point: 1
-          },
-          {
-            username: 'havus',
-            point: 1
-          },
-          {
-            username: 'tillyong',
-            point: 1
-          }
-        ],
-        board: [
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', '']
-        ],
-        track: 1
-      },
-      {
-        id: 3,
-        count: 2,
-        players: [
-          {
-            username: 'cekidot',
-            point: 1
-          },
-          {
-            username: 'niu',
-            point: 1
-          }
-        ],
-        board: [
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', '']
-        ],
-        track: 1
-      },
-    ],
+    rooms: [],
   },
   mutations: {
     ADDCHAR: (state, obj) => {
@@ -128,16 +46,38 @@ export default new Vuex.Store({
         }
       }
     },
-    FETCHMASTER: (state, obj) => {
-
+    LISTROOM: (state, arrObj) => {
+      state.rooms = arrObj
     }
   },
   actions: {
-    fetchData (context, obj) {
-      context.commit('FETCHMASTER', obj)
-    },
     addChar (context, obj) {
       context.commit('ADDCHAR', obj)
+    },
+    getListRoom (context) {
+      // db.collection('sos').doc('2FDWFvxdXkzMBFFMNV2q').update({
+      //   board: {
+      //     0: ['', '', '', '', ''],
+      //     1: ['', '', '', '', ''],
+      //     2: ['', '', '', '', ''],
+      //     3: ['', '', '', '', ''],
+      //     4: ['', '', '', '', '']
+      //   }
+      // })
+
+      db.collection('sos')
+        .onSnapshot((querySnapshot) => {
+          let arrObj = []
+          arrObj = []
+          querySnapshot.forEach((doc) => {
+            const data = doc.data()
+            // doc.id
+            let temp = {...data}
+            temp.id = doc.id
+            arrObj.push(temp)
+          });
+          context.commit('LISTROOM', arrObj)
+        });
     }
   }
 })

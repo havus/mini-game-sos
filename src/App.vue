@@ -9,7 +9,6 @@ import db from '@/api/firestore'
 
 export default {
   mounted() {
-    
     // db.collection('sos')
     //   .onSnapshot((querySnapshot) => {
     //     let dbMaster = []

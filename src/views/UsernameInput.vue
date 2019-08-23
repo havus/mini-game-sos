@@ -25,7 +25,7 @@ export default {
     login () {
       this.$store.username = this.username
       localStorage.setItem('username', this.username)
-      this.$router.push('/')
+      this.$router.push('/listroom')
     }
   }
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import ListRoom from './views/ListRoom.vue'
+import Room from './views/Room.vue'
 import UsernameInput from './views/UsernameInput.vue'
 
 Vue.use(Router)
@@ -10,14 +11,19 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/username',
+      path: '/',
       name: 'username',
       component: UsernameInput
     },
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '/listroom',
+      name: 'listroom',
+      component: ListRoom
+    },
+    {
+      path: '/room',
+      name: 'room',
+      component: Room
     }
   ]
 })
