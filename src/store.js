@@ -52,19 +52,10 @@ export default new Vuex.Store({
   },
   actions: {
     addChar (context, obj) {
-      context.commit('ADDCHAR', obj)
+      console.log(obj);
+      // context.commit('ADDCHAR', obj)
     },
     getListRoom (context) {
-      // db.collection('sos').doc('2FDWFvxdXkzMBFFMNV2q').update({
-      //   board: {
-      //     0: ['', '', '', '', ''],
-      //     1: ['', '', '', '', ''],
-      //     2: ['', '', '', '', ''],
-      //     3: ['', '', '', '', ''],
-      //     4: ['', '', '', '', '']
-      //   }
-      // })
-
       db.collection('sos')
         .onSnapshot((querySnapshot) => {
           let arrObj = []
@@ -78,6 +69,34 @@ export default new Vuex.Store({
           });
           context.commit('LISTROOM', arrObj)
         });
+    },
+    createRoom (context, objRM) {
+      // var objRM adalah object room master yg membuat player
+      let obj = {
+        board: {
+          0: ['', '', '', '', ''],
+          1: ['', '', '', '', ''],
+          2: ['', '', '', '', ''],
+          3: ['', '', '', '', ''],
+          4: ['', '', '', '', '']
+        },
+        players: [
+          objRM
+        ],
+        count: 0,
+        totalPoint: 0
+      }
+      db.collection('sos').add(obj)
+        .then(() => {
+          console.log('berhasil create room');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // db.collection('sos').doc('2FDWFvxdXkzMBFFMNV2q')
+      //   .update({
+          
+      //   })
     }
   }
 })

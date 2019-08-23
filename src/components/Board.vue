@@ -1,9 +1,9 @@
 <template>
   <div id="body">
-    <div id="container">
-      <p>{{ room.count }}</p>
-      <div id="row" v-for="(y, yi) in row" :key=yi>
-        <div id="box" @click="addChar" v-for="(x, xi) in col" :key="xi" :coor="yi+''+xi" :room_id="room.id">{{ room.board[yi][xi] }}</div>
+    <div id="container" v-if="dataReady">
+      <p>{{ dataRoom.count }}</p>
+      <div id="row" v-for="(y, yi) in dataRoom.board" :key=yi>
+        <div id="box" @click="addChar" v-for="(x, xi) in dataRoom.board[yi]" :key="xi" :coor="yi+''+xi" :room_id="dataRoom.id">{{ dataRoom.board[yi][xi] }}</div>
       </div>
     </div>
 
@@ -20,24 +20,25 @@
 
 <script>
 
-
 export default {
-  props: [],
+  props: ['theRoom'],
   data: () => ({
-    room: [],
-    col: 5,
-    row: 5,
+    dataRoom: [],
     char: '',
     x: '',
-    y: ''
+    y: '',
+    dataReady: false
   }),
+  created () {
+  },
   methods: {
     addChar (val) {
       const myValue = val.target.innerHTML
-      const playerIdx = this.room.players.map(function(e) { return e.username }).indexOf(localStorage.getItem('username'))
+      const playerIdx = this.dataRoom.players.map(function(e) { return e.name }).indexOf(localStorage.getItem('username'))
 
-      console.log(this.room.count, playerIdx);
-      if (!myValue && Math.abs(this.room.count % this.room.players.length - 1) === playerIdx) {
+      console.log(this.dataRoom.count, playerIdx);
+      console.log(myValue);
+      if (!myValue && this.dataRoom.count % this.dataRoom.players.length === playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
         this.x = coor[0]
@@ -49,7 +50,7 @@ export default {
     },
     s () {
       this.$store.dispatch('addChar', {
-        room_id: this.room.id,
+        room_id: this.dataRoom.id,
         char: 's',
         x: this.x,
         y: this.y
@@ -58,17 +59,44 @@ export default {
     },
     o () {
       this.$store.dispatch('addChar', {
-        room_id: this.room.id,
+        room_id: this.dataRoom.id,
         char: 'o',
         x: this.x,
         y: this.y
       })
       this.toggleModal()
     },
-  }
+  },
+  watch: {
+    theRoom () {
+      this.dataRoom = {...this.theRoom[0]}
+      this.dataReady = true
+      console.log(this.dataRoom, 'dari board');
+    }
+  },
 }
 </script>
 
 <style>
-
+  #row {
+    display: flex;
+  }
+  #box {
+    height: 60px;
+    width: 60px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+  #isiModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #isiModal * {
+    margin: 0 10px;
+  }
 </style>

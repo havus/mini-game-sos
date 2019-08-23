@@ -1,5 +1,7 @@
 <template>
-  
+  <div id="body">
+    <Board :theRoom="theRoom"></Board>
+  </div>
 </template>
 
 <script>
@@ -10,34 +12,47 @@ export default {
   components: {
     Board
   },
+  computed: mapState({
+    rooms: 'rooms'
+  }),
+  data: () => ({
+    theRoom: ''
+  }),
   created () {
     if (!localStorage.getItem('username')) {
       this.$router.push('/')
     } else {
-      this.room = this.getRoomData()[0];
-      console.log(this.room);
+      this.$store.dispatch('getListRoom')
     }
   },
   computed: mapState({
     rooms: 'rooms'
   }),
-  methods: {
-    getRoomData () {
+  watch: {
+    rooms() {
       let thisUser = localStorage.getItem('username');
-      // console.log(this.rooms);
-      return this.rooms.filter(room => {
+      this.theRoom = this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
-          if (room.players[i].username === thisUser) {
+          if (room.players[i].name === thisUser) {
             return true
           }
         }
       })
-    },
-    
+
+      if (this.theRoom.length <= 0) {
+        this.$router.push('/listroom')
+      }
+    }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  #body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
