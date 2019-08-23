@@ -1,6 +1,6 @@
 <template>
   <div id="body">
-    <h1>username : {{ username }} </h1>
+    <h1>Username : {{ username }} </h1>
     <Board :theRoom="theRoom"></Board>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background: linear-gradient(#92b397 , #919fb5, #b3a5cc, #82adac);
+    background: linear-gradient(#b3a5cc, #92b397 , #919fb5, #b3a5cc, #82adac);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
