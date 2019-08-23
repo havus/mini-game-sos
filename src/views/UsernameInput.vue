@@ -69,7 +69,7 @@ align-items: center;
 }
 
 #body{
-  /* background-image: url("../../public/images/bg-main.jpg"); */
+  background-image: url("../../public/images/bg-main.jpg");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;

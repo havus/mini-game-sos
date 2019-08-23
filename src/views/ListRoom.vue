@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style scoped>
-/* #body {
+#body {
   background-image: url("../../public/images/background.png");
   height: 100%;
   background-position: center;
@@ -95,5 +95,5 @@ export default {
   background-size: cover;
   display: flex;
   flex-direction: row;
-} */
+}
 </style>
