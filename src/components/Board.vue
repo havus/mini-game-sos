@@ -116,13 +116,13 @@ export default {
   },
   watch: {
     theRoom () {
-      this.dataRoom = {...this.theRoom[0]}
+      this.dataRoom = { ...this.theRoom[0] }
       this.dataReady = true
       if (this.dataRoom.count >= 25) {
         this.$store.dispatch('deleteRoom', this.dataRoom.id)
       }
     }
-  },
+  }
 }
 </script>
 

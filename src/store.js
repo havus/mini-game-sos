@@ -46,7 +46,7 @@ export default new Vuex.Store({
             arrObj.push(temp)
           })
           context.commit('LISTROOM', arrObj)
-        });
+        })
     },
     createRoom (context, players) {
       // var objRM adalah object room master yg membuat player
@@ -65,7 +65,7 @@ export default new Vuex.Store({
       }
       db.collection('sos').add(obj)
         .then(() => {
-          console.log('berhasil create room');
+          console.log('berhasil create room')
         })
         .catch((err) => {
           console.log(err);
