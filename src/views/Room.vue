@@ -50,10 +50,13 @@ export default {
 <style scoped>
   #body {
     width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background: linear-gradient(#92b397 , #919fb5, #b3a5cc, #82adac);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
   }
 </style>

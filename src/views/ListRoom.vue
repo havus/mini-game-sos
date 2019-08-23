@@ -27,67 +27,67 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-  name: "home",
+  name: 'home',
   data: () => ({
     form: {
-      user2: "",
-      user3: "",
-      user4: ""
+      user2: '',
+      user3: '',
+      user4: ''
     }
   }),
   computed: mapState({
-    rooms: "rooms"
+    rooms: 'rooms'
   }),
-  created() {
+  created () {
     // console.log(this.rooms[0])
-    if (!localStorage.getItem("username")) {
-      this.$router.push("/");
+    if (!localStorage.getItem('username')) {
+      this.$router.push('/')
     } else {
-      this.$store.dispatch("getListRoom");
-      this.username = localStorage.getItem("username");
+      this.$store.dispatch('getListRoom')
+      this.username = localStorage.getItem('username')
     }
   },
   methods: {
-    createRoom() {
+    createRoom () {
       let players = [
         {
-          name: localStorage.getItem("username"),
+          name: localStorage.getItem('username'),
           point: 0
         }
-      ];
+      ]
       for (let key in this.form) {
-        if (this.form[key] !== "") {
+        if (this.form[key] !== '') {
           players.push({
             name: this.form[key],
             point: 0
-          });
+          })
         }
       }
 
-      this.$store.dispatch("createRoom", players);
+      this.$store.dispatch('createRoom', players)
     }
   },
   watch: {
-    rooms() {
-      let thisUser = localStorage.getItem("username");
+    rooms () {
+      let thisUser = localStorage.getItem('username')
       this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
           if (room.players[i].name === thisUser) {
-            this.$router.push("/room");
-            break;
+            this.$router.push('/room')
+            break
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>
-#body {
+/* #body {
   background-image: url("../../public/images/background.png");
   height: 100%;
   background-position: center;
@@ -95,5 +95,5 @@ export default {
   background-size: cover;
   display: flex;
   flex-direction: row;
-}
+} */
 </style>
