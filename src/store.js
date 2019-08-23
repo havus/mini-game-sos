@@ -12,7 +12,7 @@ export default new Vuex.Store({
   mutations: {
     ADDCHAR: (state, obj) => {
       // TRACK === FULLPOINT JADI
-      
+
     },
     LISTROOM: (state, arrObj) => {
       state.rooms = arrObj
@@ -22,7 +22,7 @@ export default new Vuex.Store({
     addChar (context, obj) {
       // console.log(obj);
       // let roomIdx = state.rooms.map(function (e) { return e.id }).indexOf(3)
-      
+
       db.collection('sos').doc(obj.room_id)
         .update({
           board: obj.board,
@@ -30,7 +30,7 @@ export default new Vuex.Store({
           players: obj.players,
           totalPoint: obj.totalPoint
         })
-      
+
       // context.commit('ADDCHAR', obj)
     },
     getListRoom (context) {
@@ -68,9 +68,8 @@ export default new Vuex.Store({
           console.log('berhasil create room')
         })
         .catch((err) => {
-          console.log(err);
-        });
-      
+          console.log(err)
+        })
     },
     deleteRoom (context, id) {
       db.collection('sos').doc(id).delete()
@@ -79,8 +78,8 @@ export default new Vuex.Store({
           console.log('berhasil delete room')
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     }
   }
 })

@@ -42,11 +42,11 @@ export default {
   methods: {
     addChar (val) {
       const myValue = val.target.innerHTML
-      this.playerIdx = this.dataRoom.players.map(function(e) { return e.name }).indexOf(localStorage.getItem('username'))
-      
+      this.playerIdx = this.dataRoom.players.map(function (e) { return e.name }).indexOf(localStorage.getItem('username'))
+
       // console.log(this.dataRoom.count, this.dataRoom.players.length);
       // console.log(this.dataRoom.players[playerIdx]);
-      
+
       if (!myValue && this.dataRoom.count % this.dataRoom.players.length === this.playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
@@ -64,11 +64,11 @@ export default {
       this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
     },
     s () {
-      this.checkBoard ('s')
+      this.checkBoard('s')
       this.toggleModal()
     },
     o () {
-      this.checkBoard ('o')
+      this.checkBoard('o')
       this.toggleModal()
     },
     checkBoard (char) {

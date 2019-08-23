@@ -1,7 +1,6 @@
 <template>
   <div id="bodyList">
-    <h1 v-for="room in rooms" :key="room.id">{{ room.name }}</h1>
-    <button v-b-modal.modal-2>create room</button>
+    <button v-b-modal.modal-2 id="cusbtn">create room</button>
 
     <b-modal id="modal-2" size="sm" :hide-footer="true" :hide-header="true">
       <b-form-input v-model="roomname" type="text" required placeholder="Room Name"></b-form-input>
@@ -28,10 +27,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-  name: "home",
+  name: 'home',
   data: () => ({
     form: {
       user2: "",
@@ -41,31 +40,31 @@ export default {
     roomname: ''
   }),
   computed: mapState({
-    rooms: "rooms"
+    rooms: 'rooms'
   }),
-  created() {
+  created () {
     // console.log(this.rooms[0])
-    if (!localStorage.getItem("username")) {
-      this.$router.push("/");
+    if (!localStorage.getItem('username')) {
+      this.$router.push('/')
     } else {
-      this.$store.dispatch("getListRoom");
-      this.username = localStorage.getItem("username");
+      this.$store.dispatch('getListRoom')
+      this.username = localStorage.getItem('username')
     }
   },
   methods: {
-    createRoom() {
+    createRoom () {
       let players = [
         {
-          name: localStorage.getItem("username"),
+          name: localStorage.getItem('username'),
           point: 0
         }
-      ];
+      ]
       for (let key in this.form) {
-        if (this.form[key] !== "") {
+        if (this.form[key] !== '') {
           players.push({
             name: this.form[key],
             point: 0
-          });
+          })
         }
       }
 
@@ -73,19 +72,19 @@ export default {
     }
   },
   watch: {
-    rooms() {
-      let thisUser = localStorage.getItem("username");
+    rooms () {
+      let thisUser = localStorage.getItem('username')
       this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
           if (room.players[i].name === thisUser) {
-            this.$router.push("/room");
-            break;
+            this.$router.push('/room')
+            break
           }
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -96,6 +95,15 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+#cusbtn {
+  height: 70px;
+  margin: 10px;
+  background-color: aquamarine;
+  color: rgb(34, 61, 179);
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 2px;
 }
 </style>
