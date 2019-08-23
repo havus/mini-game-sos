@@ -52,7 +52,7 @@ export default new Vuex.Store({
   },
   actions: {
     addChar (context, obj) {
-      console.log(obj);
+      console.log(obj)
       // context.commit('ADDCHAR', obj)
     },
     getListRoom (context) {
@@ -68,7 +68,7 @@ export default new Vuex.Store({
             arrObj.push(temp)
           })
           context.commit('LISTROOM', arrObj)
-        });
+        })
     },
     createRoom (context, objRM) {
       // var objRM adalah object room master yg membuat player
@@ -88,14 +88,14 @@ export default new Vuex.Store({
       }
       db.collection('sos').add(obj)
         .then(() => {
-          console.log('berhasil create room');
+          console.log('berhasil create room')
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
       // db.collection('sos').doc('2FDWFvxdXkzMBFFMNV2q')
       //   .update({
-          
+
       //   })
     }
   }

@@ -25,12 +25,9 @@ export default {
       this.$store.dispatch('getListRoom')
     }
   },
-  computed: mapState({
-    rooms: 'rooms'
-  }),
   watch: {
-    rooms() {
-      let thisUser = localStorage.getItem('username');
+    rooms () {
+      let thisUser = localStorage.getItem('username')
       this.theRoom = this.rooms.filter(room => {
         for (let i = 0; i < room.players.length; i++) {
           if (room.players[i].name === thisUser) {

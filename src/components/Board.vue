@@ -34,10 +34,10 @@ export default {
   methods: {
     addChar (val) {
       const myValue = val.target.innerHTML
-      const playerIdx = this.dataRoom.players.map(function(e) { return e.name }).indexOf(localStorage.getItem('username'))
+      const playerIdx = this.dataRoom.players.map(function (e) { return e.name }).indexOf(localStorage.getItem('username'))
 
-      console.log(this.dataRoom.count, playerIdx);
-      console.log(myValue);
+      console.log(this.dataRoom.count, playerIdx)
+      console.log(myValue)
       if (!myValue && this.dataRoom.count % this.dataRoom.players.length === playerIdx) {
         this.toggleModal()
         const coor = val.target.getAttribute('coor')
@@ -65,15 +65,15 @@ export default {
         y: this.y
       })
       this.toggleModal()
-    },
+    }
   },
   watch: {
     theRoom () {
-      this.dataRoom = {...this.theRoom[0]}
+      this.dataRoom = { ...this.theRoom[0] }
       this.dataReady = true
-      console.log(this.dataRoom, 'dari board');
+      console.log(this.dataRoom, 'dari board')
     }
-  },
+  }
 }
 </script>
 
