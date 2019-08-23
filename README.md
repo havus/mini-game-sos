@@ -1,5 +1,7 @@
 # sos
 
+link: https://kan-zen-kanban.firebaseapp.com
+
 ## Project setup
 ```
 npm install
