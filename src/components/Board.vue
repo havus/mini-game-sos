@@ -54,6 +54,12 @@ export default {
         this.y = coor[1]
       }
     },
+    clapSound(sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
+    },
     toggleModal () {
       this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
     },
@@ -100,7 +106,9 @@ export default {
 
       if (tempTrack > obj.totalPoint) {
         obj.totalPoint++
+        // console.log(obj.players[this.playerIdx].point)
         obj.players[this.playerIdx].point++
+        this.clapSound('http://soundbible.com/mp3/Audience_Applause-Matthiew11-1206899159.mp3')
         console.log(this.dataRoom.players);
       }
 

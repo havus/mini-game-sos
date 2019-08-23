@@ -48,10 +48,10 @@ export default new Vuex.Store({
           context.commit('LISTROOM', arrObj)
         })
     },
-    createRoom (context, players) {
+    createRoom (context, payload) {
       // var objRM adalah object room master yg membuat player
       let obj = {
-        name: 'ngarang',
+        name: payload.roomname,
         board: {
           0: ['', '', '', '', ''],
           1: ['', '', '', '', ''],
@@ -59,7 +59,7 @@ export default new Vuex.Store({
           3: ['', '', '', '', ''],
           4: ['', '', '', '', '']
         },
-        players,
+        players: payload.players,
         count: 0,
         totalPoint: 0
       }

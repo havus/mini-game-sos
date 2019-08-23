@@ -1,9 +1,10 @@
 <template>
-  <div id="body">
+  <div id="bodyList">
     <h1 v-for="room in rooms" :key="room.id">{{ room.name }}</h1>
     <button v-b-modal.modal-2>create room</button>
 
     <b-modal id="modal-2" size="sm" :hide-footer="true" :hide-header="true">
+      <b-form-input v-model="roomname" type="text" required placeholder="Room Name"></b-form-input>
       <b-form-input v-model="form.user2" type="text" required placeholder="User 2"></b-form-input>
       <b-form-input v-model="form.user3" type="text" placeholder="User 3"></b-form-input>
       <b-form-input v-model="form.user4" type="text" placeholder="User 4"></b-form-input>
@@ -36,7 +37,8 @@ export default {
       user2: "",
       user3: "",
       user4: ""
-    }
+    },
+    roomname: ''
   }),
   computed: mapState({
     rooms: "rooms"
@@ -67,7 +69,7 @@ export default {
         }
       }
 
-      this.$store.dispatch("createRoom", players);
+      this.$store.dispatch("createRoom", {roomname: this.roomname, players});
     }
   },
   watch: {
@@ -87,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-#body {
+#bodyList {
   background-image: url("../../public/images/background.png");
   height: 100%;
   background-position: center;

@@ -1,5 +1,5 @@
 <template>
-  <div id="body">
+  <div id="bodyRoom">
     <h1>username : {{ username }} </h1>
     <Board :theRoom="theRoom"></Board>
   </div>
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style scoped>
-  #body {
+  #bodyRoom {
     width: 100%;
     height: 100%;
     display: flex;
