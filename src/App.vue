@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import db from '@/api/firestore'
+// import db from '@/api/firestore'
 
 export default {
-  mounted() {
+  mounted () {
     // db.collection('sos')
     //   .onSnapshot((querySnapshot) => {
     //     let dbMaster = []
